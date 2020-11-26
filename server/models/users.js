@@ -27,7 +27,7 @@ const UserSchema = Schema({
   },
   birthdate: {
     type: Date,
-    required: [true, 'The password is reqired']
+    required: [true, 'The birthdate is reqired']
   },
   gender: {
     type: String,
@@ -38,11 +38,22 @@ const UserSchema = Schema({
     type: String,
     required: false
   },
+  deleted_at: {
+    type: Date,
+    default: undefined,
+    required: false
+  },
   created_at: {
     type: Date,
     default: new Date(),
     required: false
   }
 });
+
+UserSchema.methods.toJSON = function () {
+  const obj = this.toObject();
+  delete obj.password;
+  return obj;
+};
 
 module.exports = model('User', UserSchema);
