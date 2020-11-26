@@ -8,7 +8,10 @@ async function getUsers(req, res) {
   let objToFind;
   if (search) {
     objToFind = {
-      $or: [{ name: { $regex: search } }, { hobby: { $regex: search } }]
+      $or: [
+        { name: { $regex: search, $options: 'i' } },
+        { hobby: { $regex: search, $options: 'i' } }
+      ]
     };
   } else {
     objToFind = { deleted_at: undefined };
@@ -35,7 +38,6 @@ async function createUser(req, res) {
     const response = {
       ok: true,
       message: 'success',
-      body: req.body,
       user
     };
 
