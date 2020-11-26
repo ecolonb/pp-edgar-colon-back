@@ -67,17 +67,8 @@ async function deleteUser(req, res) {
   }
 }
 
-async function login(req, res) {
-  try {
-    console.log(req);
-  } catch (error) {
-    return res.status(500).json(internalErrorResponse);
-  }
-}
-
 module.exports = {
   getUsers,
   createUser,
-  login,
   deleteUser
 };

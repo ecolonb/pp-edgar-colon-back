@@ -1,7 +1,7 @@
 const User = require('../models/users');
 const { use } = require('../routes/users');
 
-const validator = async (req, res, next) => {
+async function validator(req, res, next) {
   const inputData = req.body;
   const errors = {};
 
@@ -18,11 +18,22 @@ const validator = async (req, res, next) => {
   } else {
     return res.status(400).json({ ok: false, errors });
   }
-};
+}
 
-const validateRepeatedEmail = async (email) => {
+async function validateRepeatedEmail(email) {
   const user = await User.find({ email });
   return user.length > 0 ? true : false;
-};
+}
 
-module.exports = { validator };
+async function validateLoginData(req, res, next) {
+  const { email, password } = req.body;
+  if (!email || email === '' || !password || password === '') {
+    return res.status(400).json({
+      ok: false,
+      message: 'Email and paswword are required'
+    });
+  }
+  next();
+}
+
+module.exports = { validator, validateLoginData };
